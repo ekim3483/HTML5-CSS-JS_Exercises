@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <metacharset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        body {
+        background-image: url('https://wallpapers.com/images/hd/cute-cats-pictures-tb0wdiso0aydb6ev.jpg');
+        }
+        .todo-container {
+            width: 300px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* Remove default style for to-do list*/
+        .todo-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        /* Style each list item */
+        li {
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Add spacing for buttons in list items */
+        button {
+            margin-left: 10px;
+        }
+        </style>
+    </head>
+    <body>
+        <div class="todo-container">
+            <h1>To-Do List</h1>
+
+            <!--Input field to add new tasks -->
+            <input type="text" id="taskInput" placeholder="Add a new task">
+
+            <!-- Button to add a new task to the list -->
+            <button class="add-btn" onclick="addTask()">Add Task</button>
+
+            <!-- Unordered list to display the tasks -->
+            <ul class="todo-list" id="todoList"></ul>
+        </div>
+
+        <script>
+            function addTask() {
+                // To select input field where user will type task
+                const input = document.getElementById("taskInput");
+                const taskText = input.value.trim();
+
+                if (taskText !== "") {
+                    // To select unordered list where new tasks will be appended
+                    const ul = document.getElementById("todoList");
+                    // Create new list item to hold the task
+                    const li = document.createElement("li");
+                    // Create task text (span) element that will hold task text
+                    const span = document.createElement("span");
+                    span.textContent = taskText;
+                    // Create edit button
+                    const editButton = document.createElement("button");
+                    editButton.textContent = "Edit";
+                    // Link Edit button to event handler by setting onclick property to function editTask(span)
+                    editButton.onclick = () => editTask(span);
+                    // Create remove button
+                    const removeButton = document.createElement("button");
+                    removeButton.textContent = "Delete";
+                    //Link the Delete button to event handler (removeTask(li))
+                    removeButton.onclick = () => removeTask(li);
+                    //Append buttons and text to the list item (li) using appendChild() method
+                    li.appendChild(span);
+                    li.appendChild(editButton);
+                    li.appendChild(removeButton);
+                    //Append list item to the unordered list using appendChild() method
+                    ul.appendChild(li);
+                    // After adding task to the list, clear the input field
+                    input.value = "";
+                }
+
+                else {
+                    alert("Please enter a valid task.");
+                }
+            }
+
+            function editTask(span) {
+                const newTask = prompt("Edit your task:", span.textContent);
+                // Pass current task (span.textContent) as default value in prompt
+                // Use newTask.trim() to ensure that task text is not just whitespace
+                if (newTask !== null && newTask.trim() !== "") {
+                    span.textContent = newTask.trim(); //Set new task text
+                }
+            }
+
+            function removeTask(task){
+                // Select unordered list that contains the tasks
+                const ul = document.getElementById("todoList"); //Get list container
+                // When Delete button clicked, remove specific task (<li> element) from list
+                ul.removeChild(task); //Remove specified task element
+            }
+        </script>
+
+    </body>
+    </html>
